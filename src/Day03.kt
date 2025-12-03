@@ -3,13 +3,13 @@ import kotlin.collections.dropLast
 fun main() {
     fun part1(input: List<String>): Long {
         return input.sumOf {
-            it.map { c -> c.digitToInt().toLong() }.recursiveJoltage(2).toLong()
+            toBatteryBank(it).recursiveJoltage(2).toLong()
         }
     }
 
     fun part2(input: List<String>): Long {
         return input.sumOf {
-            it.map { c -> c.digitToInt().toLong() }.recursiveJoltage(12).toLong()
+            toBatteryBank(it).recursiveJoltage(12).toLong()
         }
     }
 
@@ -23,6 +23,8 @@ fun main() {
     println("Part 2:")
     part2(input).writeToConsole()
 }
+
+private fun toBatteryBank(string: String): List<Long> = string.map { c -> c.digitToInt().toLong() }
 
 fun List<Long>.recursiveJoltage(num: Int): String {
     if (num == 1) return max().toString()
