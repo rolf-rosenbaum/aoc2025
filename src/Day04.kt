@@ -2,7 +2,7 @@ fun main() {
     fun part1(input: List<String>): Int {
         val grid = input.toGrid()
         return grid.count {
-            it.allNeighbours().filter { n -> n in grid }.size < 4
+            it.adjacentPaperRolls(grid).size < 4
         }
     }
 
@@ -10,7 +10,7 @@ fun main() {
         val grid = input.toGrid()
         val lastGrid = generateSequence(grid.toMutableSet() to true) { (g, _) ->
             val newGrid = g.filter { p ->
-                p.allNeighbours().filter { n -> n in g }.size >= 4
+                p.adjacentPaperRolls(g).size >= 4
             }.toMutableSet()
             newGrid to (newGrid.size < g.size)
         }.takeWhile { it.second }.last().first
@@ -28,6 +28,8 @@ fun main() {
     println("Part 2:")
     part2(input).writeToConsole()
 }
+
+private fun Point.adjacentPaperRolls(grid: Set<Point>): List<Point> = allNeighbours().filter { n -> n in grid }
 
 fun List<String>.toGrid(): Set<Point> {
     val grid = mutableSetOf<Point>()
