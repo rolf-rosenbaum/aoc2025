@@ -28,8 +28,6 @@ private fun toBatteryBank(string: String): List<Long> = string.map { c -> c.digi
 
 fun List<Long>.recursiveJoltage(num: Int): String {
     if (num == 1) return max().toString()
-    else {
-        val max = dropLast(num - 1).max()
-        return max.toString() + drop(indexOf(max) +1).recursiveJoltage(num -1)
-    }
+    val max = dropLast(num - 1).max()
+    return max.toString() + drop(indexOf(max) +1).recursiveJoltage(num -1)
 }
