@@ -86,6 +86,22 @@ fun IntRange.merge(other: IntRange): IntRange {
     return IntRange(maxOf(first, other.first), minOf(last, other.last)).let { if (it.first >= it.last) 0..0 else it }
 }
 
+fun LongRange.fullyContains(other: LongRange) =
+    contains(other.first) && contains(other.last)
+
+fun LongRange.overlapsWith(other: LongRange) =
+    contains(other.first) || contains(other.last)
+
+fun LongRange.union(other: LongRange): LongRange? {
+    return if (overlapsWith(other))
+        LongRange(minOf(first, other.first), maxOf(last, other.last))
+    else null
+}
+
+fun LongRange.merge(other: LongRange): LongRange {
+    return LongRange(maxOf(first, other.first), minOf(last, other.last)).let { if (it.first >= it.last) 0L..0L else it }
+}
+
 fun List<Number>.findPattern(minWindow: Int = 5, startIndex: Int = 1): Pair<Int, Int> {
     (minWindow..size / 2).forEach { windowSize ->
         print("$windowSize\r")
