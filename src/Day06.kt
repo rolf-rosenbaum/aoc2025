@@ -59,10 +59,8 @@ data class CephaolpodMathProblem(val operator: String, val numbers: List<String>
             else it.toLong()
 
         }
-        return when (operator) {
-            "+" -> nums.sum()
-            "*" -> nums.reduce { acc, n -> acc * n }
-            else -> error("no operator")
+        return nums.reduce { acc, n ->
+            if (operator == "*") acc * n else acc + n
         }
     }
 }
