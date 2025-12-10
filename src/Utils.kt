@@ -2,9 +2,10 @@ import java.math.BigInteger
 import java.security.MessageDigest
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
-import kotlin.io.path.readText
 import kotlin.math.abs
 import kotlin.math.absoluteValue
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 typealias Vector = Point
@@ -55,10 +56,12 @@ data class Point(val x: Int, val y: Int) {
             Point(x + 1, y + 1)
         ).filter { it.x in minX..maxX && it.y in minY..maxY }.toSet()
 
-    fun leftOf() = Point(x - 1, y)
-    fun rightOf() = Point(x + 1, y)
-    fun topOf() = Point(x, y - 1)
-    fun bottomOf() = Point(x, y + 1)
+    fun left() = Point(x - 1, y)
+    fun right() = Point(x + 1, y)
+    fun top() = Point(x, y - 1)
+    fun bottom() = Point(x, y + 1)
+    fun bottomRight() = Point(x+1, y + 1)
+    fun bottomLeft() = Point(x-1, y + 1)
 
     fun distanceTo(other: Point) = abs(x - other.x) + abs(y - other.y)
     operator fun plus(other: Point) = Point(x + other.x, y + other.y)
@@ -75,7 +78,7 @@ fun IntRange.fullyContains(other: IntRange) =
     contains(other.first) && contains(other.last)
 
 fun IntRange.overlapsWith(other: IntRange) =
-    contains(other.first) || contains(other.last)
+    max(first, other.first) <= min(last, other.last)
 
 fun IntRange.union(other: IntRange): IntRange? {
     return if (overlapsWith(other))
